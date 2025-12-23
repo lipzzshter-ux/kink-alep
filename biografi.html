@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biografi Saya - Modern & Dinamis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0f0f1a;
+            color: #fff;
+            scroll-behavior: smooth;
+        }
+
+        /* Font dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6a0dad; /* Warna ungu neon */
+            /* Animasi teks berkedip */
+            animation: blink 2s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { color: #6a0dad; }
+            to { color: #a855f7; }
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #ccc;
+            position: relative;
+        }
+
+        /* Animasi garis bawah saat hover */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #6a0dad;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section - Animasi Typing & Slide-in */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            /* Animasi slide-in dari atas */
+            animation: slideDown 1s ease forwards;
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #ccc;
+            /* Animasi typing effect */
+            overflow: hidden;
+            border-right: 3px solid #6a0dad;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blinkCaret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blinkCaret {
+            from, to { border-color: transparent; }
+            50% { border-color: #6a0dad; }
+        }
+
+        /* Section Umum */
+        .section {
+            padding: 100px 5%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #6a0dad;
+            /* Animasi fade-in saat discroll */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ddd;
+            /* Animasi teks muncul satu per satu */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        /* Ketika section muncul di layar */
+        .section.active .section-title,
+        .section.active .section-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Riwayat Hidup - Kartu dengan hover effect */
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .timeline-card {
+            background-color: #1a1a2e;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            /* Animasi slide-in dari kiri/kanan bergantian */
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-card:nth-child(even) {
+            transform: translateX(50px);
+        }
+
+        .section.active .timeline-card {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: #6a0dad;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .timeline-card:hover::before {
+            width: 10px;
+        }
+
+        .card-year {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #a855f7;
+            margin-bottom: 10px;
+        }
+
+        /* Prestasi - Grid dengan animasi zoom */
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .achievement-card {
+            background-color: #1a1a2e;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            /* Animasi zoom */
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s ease;
+        }
+
+        .section.active .achievement-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .achievement-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(106, 13, 173, 0.5);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+
+        /* Kontak - Tombol dengan animasi */
+        .contact {
+            text-align: center;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background-color: #6a0dad;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            /* Animasi bounce saat hover */
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #a855f7;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px 5%;
+            text-align: center;
+            background-color: #1a1a2e;
+            color: #ccc;
+        }
+
+        /* Responsif untuk HP */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Sembunyikan link di HP (bisa tambah hamburger menu nanti) */
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .timeline-card {
+                transform: translateX(0) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-logo">ABOUT<span>ME</span></div>
+        <div class="nav-links">
+            <a href="#home">Beranda</a>
+            <a href="#about">Tentang</a>
+            <a href="#timeline">Riwayat</a>
+            <a href="#achievements">Prestasi</a>
+            <a href="#contact">Kontak</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1 class="hero-title">Halo, Saya <span style="color: #6a0dad;">Alif Rizky Fahriansyah</span></h1>
+        <p class="hero-subtitle">Pelajar, Konten Kreator, Sekaligus Otaku</p>
+    </section>
+
+    <!-- Tentang Saya -->
+    <section class="section" id="about">
+        <h2 class="section-title">Tentang Saya</h2>
+        <div class="section-content">
+            <p>Saya adalah seseorang yang penuh semangat dalam mengejar impian. Mulai dari kecil, saya selalu suka mengeksplorasi hal baru dan mempelajari keterampilan baru. Saat ini, saya fokus pada desain grafis, pemrograman, atau berbagai hal lainnya dan berusaha memberikan dampak positif melalui karya saya.</p>
+            <p>Saya percaya bahwa setiap hari adalah kesempatan untuk tumbuh dan belajar. Oleh karena itu, saya selalu terbuka untuk tantangan baru dan kolaborasi dengan orang lain.</p>
+        </div>
+    </section>
+
+    <!-- Riwayat Hidup -->
+    <section class="section" id="timeline">
+        <h2 class="section-title">Riwayat Hidup</h2>
+        <div class="timeline section-content">
+            <div class="timeline-card">
+                <div class="card-year">2018</div>
+                <h3>Sekolah Dasar</h3>
+                <p>Mengawali pendidikan di MIN 1 SRAGEN dan mulai menyukai mata pelajaran IPS.</p>
+            </div>
+            <div class="timeline-card">
+                <div class="card-year">2023</div>
+                <h3>Sekolah Menengah Pertama</h3>
+                <p>Masuk MTsN 2 Sragen dan memulai bebrapa hal kenakalan.</p>
+                        </div>
+        </div>
+    </section>
+
+    <!-- Prestasi -->
+    <section class="section" id="achievements">
+        <h2 class="section-title">Prestasi</h2>
+        <div class="achievements section-content">
+            <div class="achievement-card">
+                <div class="achievement-icon">🏆</div>
+                <h3>gapunya prestasi T_T</h3>
+                <p></p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">🌟</div>
+                <h3>Peringkat Kelas</h3>
+                <p>Memndkan nomor 4 satu kelas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak -->
+    <section class="section" id="contact">
+        <h2 class="section-title">Hubungi Saya</h2>
+        <div class="section-content contact">
+            <p>Ingin berbicara dengan saya? Jangan ragu untuk menghubungi melalui tombol di bawah ini!</p>
+            <a href="kinkaleplxvi@yahoo.com" class="contact-btn">Kirim Pesan</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Alif Rizky Fahriansyah. Semua hak dilindungi.</p>
+    </footer>
+
+    <!-- JavaScript untuk animasi saat discroll -->
+    <script>
+        // Ambil semua section
+        const sections = document.querySelectorAll('.section');
+
+        // Fungsi cek apakah section muncul di layar
+        function checkSectionInView() {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (sectionTop < windowHeight * 0.75) {
+                    section.classList.add('active');
+                }
+            });
+        }
+
+        // Panggil fungsi saat halaman dimuat dan discroll
+        window.addEventListener('load', checkSectionInView);
+        window.addEventListener('scroll', checkSectionInView);
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biografi Saya - Modern & Dinamis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0f0f1a;
+            color: #fff;
+            scroll-behavior: smooth;
+        }
+
+        /* Font dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6a0dad; /* Warna ungu neon */
+            /* Animasi teks berkedip */
+            animation: blink 2s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { color: #6a0dad; }
+            to { color: #a855f7; }
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #ccc;
+            position: relative;
+        }
+
+        /* Animasi garis bawah saat hover */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #6a0dad;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section - Animasi Typing & Slide-in */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            /* Animasi slide-in dari atas */
+            animation: slideDown 1s ease forwards;
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #ccc;
+            /* Animasi typing effect */
+            overflow: hidden;
+            border-right: 3px solid #6a0dad;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blinkCaret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blinkCaret {
+            from, to { border-color: transparent; }
+            50% { border-color: #6a0dad; }
+        }
+
+        /* Section Umum */
+        .section {
+            padding: 100px 5%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #6a0dad;
+            /* Animasi fade-in saat discroll */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ddd;
+            /* Animasi teks muncul satu per satu */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        /* Ketika section muncul di layar */
+        .section.active .section-title,
+        .section.active .section-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Riwayat Hidup - Kartu dengan hover effect */
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .timeline-card {
+            background-color: #1a1a2e;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            /* Animasi slide-in dari kiri/kanan bergantian */
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-card:nth-child(even) {
+            transform: translateX(50px);
+        }
+
+        .section.active .timeline-card {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: #6a0dad;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .timeline-card:hover::before {
+            width: 10px;
+        }
+
+        .card-year {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #a855f7;
+            margin-bottom: 10px;
+        }
+
+        /* Prestasi - Grid dengan animasi zoom */
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .achievement-card {
+            background-color: #1a1a2e;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            /* Animasi zoom */
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s ease;
+        }
+
+        .section.active .achievement-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .achievement-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(106, 13, 173, 0.5);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+
+        /* Kontak - Tombol dengan animasi */
+        .contact {
+            text-align: center;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background-color: #6a0dad;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            /* Animasi bounce saat hover */
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #a855f7;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px 5%;
+            text-align: center;
+            background-color: #1a1a2e;
+            color: #ccc;
+        }
+
+        /* Responsif untuk HP */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Sembunyikan link di HP (bisa tambah hamburger menu nanti) */
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .timeline-card {
+                transform: translateX(0) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-logo">MY<span>BIO</span></div>
+        <div class="nav-links">
+            <a href="#home">Beranda</a>
+            <a href="#about">Tentang</a>
+            <a href="#timeline">Riwayat</a>
+            <a href="#achievements">Prestasi</a>
+            <a href="#contact">Kontak</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1 class="hero-title">Halo, Saya <span style="color: #6a0dad;">Nama Kamu</span></h1>
+        <p class="hero-subtitle">Pelajar, Kreator Konten, dan Penikmat Alam</p>
+    </section>
+
+    <!-- Tentang Saya -->
+    <section class="section" id="about">
+        <h2 class="section-title">Tentang Saya</h2>
+        <div class="section-content">
+            <p>Saya adalah seseorang yang penuh semangat dalam mengejar impian. Mulai dari kecil, saya selalu suka mengeksplorasi hal baru dan mempelajari keterampilan baru. Saat ini, saya fokus pada [bidangmu, misal: desain grafis, pemrograman, atau tulisan] dan berusaha memberikan dampak positif melalui karya saya.</p>
+            <p>Saya percaya bahwa setiap hari adalah kesempatan untuk tumbuh dan belajar. Oleh karena itu, saya selalu terbuka untuk tantangan baru dan kolaborasi dengan orang lain.</p>
+        </div>
+    </section>
+
+    <!-- Riwayat Hidup -->
+    <section class="section" id="timeline">
+        <h2 class="section-title">Riwayat Hidup</h2>
+        <div class="timeline section-content">
+            <div class="timeline-card">
+                <div class="card-year">2015</div>
+                <h3>Sekolah Dasar</h3>
+                <p>Mengawali pendidikan di SD Negeri X dan mulai menyukai mata pelajaran IPA.</p>
+            </div>
+            <div class="timeline-card">
+                <div class="card-year">2018</div>
+                <h3>Sekolah Menengah Pertama</h3>
+                <p>Masuk SMP Negeri Y dan bergabung dengan klub seni, menghasilkan karya pertama yang dipajang di sekolah.</p>
+            </div>
+            <div class="timeline-card">
+                <div class="card-year">2021</div>
+                <h3>Sekolah Menengah Atas</h3>
+                <p>Masuk SMA Negeri Z dan mempelajari [bidangmu], memenangkan lomba pertama di tingkat kota.</p>
+            </div>
+            <div class="timeline-card">
+                <div class="card-year">2024 - Sekarang</div>
+                <h3>Kuliah / Karier</h3>
+                <p>Masuk universitas [nama universitas] atau bekerja di [perusahaan], terus mengembangkan keterampilan dan menciptakan karya.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prestasi -->
+    <section class="section" id="achievements">
+        <h2 class="section-title">Prestasi</h2>
+        <div class="achievements section-content">
+            <div class="achievement-card">
+                <div class="achievement-icon">🏆</div>
+                <h3>Juara 1 Lomba</h3>
+                <p>Lomba [nama lomba] tingkat kota tahun 2022.</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">🌟</div>
+                <h3>Unggulan Siswa</h3>
+                <p>Diakui sebagai siswa unggulan SMA tahun 2023.</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">📝</div>
+                <h3>Publikasi Tulisan</h3>
+                <p>Tulisan tentang [topik] dipublikasikan di majalah sekolah.</p>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">🤝</div>
+                <h3>Kolaborasi</h3>
+                <p>Bekerjasama dengan [nama organisasi] untuk proyek sosial.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak -->
+    <section class="section" id="contact">
+        <h2 class="section-title">Hubungi Saya</h2>
+        <div class="section-content contact">
+            <p>Ingin berbicara dengan saya? Jangan ragu untuk menghubungi melalui tombol di bawah ini!</p>
+            <a href="mailto:emailkamu@contoh.com" class="contact-btn">Kirim Pesan</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Nama Kamu. Semua hak dilindungi.</p>
+    </footer>
+
+    <!-- JavaScript untuk animasi saat discroll -->
+    <script>
+        // Ambil semua section
+        const sections = document.querySelectorAll('.section');
+
+        // Fungsi cek apakah section muncul di layar
+        function checkSectionInView() {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (sectionTop < windowHeight * 0.75) {
+                    section.classList.add('active');
+                }
+            });
+        }
+
+        // Panggil fungsi saat halaman dimuat dan discroll
+        window.addEventListener('load', checkSectionInView);
+        window.addEventListener('scroll', checkSectionInView);
+    </script>
+</body>
+</html>
